@@ -11,6 +11,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Map;
 
+import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 import static java.util.Collections.singletonMap;
 
 @RunWith(SpringRunner.class)
@@ -33,18 +35,21 @@ public class TemplateControllerTest {
         assert (boolean) res.getBody().get("success");
         assert res.getBody().get("sourceText").equals("OlegVash schet otkluchen ot SMSservice");
         assert res.getBody().get("template").equals("%w+Vash schet otkluchen ot SMSservice");
+        assert res.getBody().get("params").equals(singletonList("Oleg"));
 
         res = match("Новый emailОт кого-то Тема какая-то");
         assert res.getStatusCodeValue() == 200;
         assert (boolean) res.getBody().get("success");
         assert res.getBody().get("sourceText").equals("Новый emailОт кого-то Тема какая-то");
         assert res.getBody().get("template").equals("Новый emailОт %w+Тема %w+");
+        assert res.getBody().get("params").equals(asList("кого-то ", "какая-то"));
 
         res = match("Доброе утро олег! Ваш заказ №289 \"Фрукты\" готов к доставке Вы можете назначить дату и время доставки на пункт выдачи самостоятельно");
         assert res.getStatusCodeValue() == 200;
         assert (boolean) res.getBody().get("success");
         assert res.getBody().get("sourceText").equals("Доброе утро олег! Ваш заказ №289 \"Фрукты\" готов к доставке Вы можете назначить дату и время доставки на пункт выдачи самостоятельно");
         assert res.getBody().get("template").equals("%w+ Ваш заказ %w+ готов к доставке Вы можете назначить дату и время доставки на %w+ самостоятельно");
+        assert res.getBody().get("params").equals(asList("Доброе утро олег!", "№289 \"Фрукты\"", "пункт выдачи"));
     }
 
     @Test
@@ -54,6 +59,7 @@ public class TemplateControllerTest {
         assert !(boolean) res.getBody().get("success");
         assert res.getBody().get("sourceText").equals("OlegVash schet otkluchen ot  SMSservice");
         assert res.getBody().get("template") == null;
+        assert res.getBody().get("params") == null;
     }
 
     private ResponseEntity<Map> match(String text) {

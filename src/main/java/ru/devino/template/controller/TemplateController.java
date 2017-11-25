@@ -5,7 +5,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.devino.template.dto.TemplateMatchReq;
 import ru.devino.template.dto.TemplateMatchRes;
-import ru.devino.template.provider.FileTemplateProvider;
+import ru.devino.template.matcher.TemplateMatcher;
+import ru.devino.template.matcher.MatchResult;
 
 import javax.validation.Valid;
 
@@ -14,20 +15,19 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 @RestController
 public class TemplateController {
 
-    private final FileTemplateProvider service;
+    private final TemplateMatcher templateProvider;
 
-    public TemplateController(FileTemplateProvider service) {
-        this.service = service;
+    public TemplateController(TemplateMatcher templateProvider) {
+        this.templateProvider = templateProvider;
     }
 
     @PostMapping(value = "/match", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
     public TemplateMatchRes match(@Valid @RequestBody TemplateMatchReq req) {
-        String template = service.findTemplate(req.getText());
-        return new TemplateMatchRes(
-                template != null,
-                req.getText(),
-                template
-        );
+        MatchResult result = templateProvider.match(req.getText());
+        if (result != null) {
+            return TemplateMatchRes.success(req.getText(), result.getTemplate(), result.getParams());
+        }
+        return TemplateMatchRes.fail(req.getText());
     }
 
 }

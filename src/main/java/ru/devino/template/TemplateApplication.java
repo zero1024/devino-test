@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MatchApplication {
+public class TemplateApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MatchApplication.class);
+        SpringApplication.run(TemplateApplication.class);
     }
 
 }
