@@ -1,4 +1,4 @@
-package ru.devino.test.dto;
+package ru.devino.template.dto;
 
 import javax.validation.constraints.NotNull;
 

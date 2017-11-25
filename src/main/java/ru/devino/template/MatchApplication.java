@@ -1,5 +1,4 @@
-package ru.devino.test;
-
+package ru.devino.template;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

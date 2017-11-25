@@ -1,11 +1,11 @@
-package ru.devino.test.controller;
+package ru.devino.template.controller;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import ru.devino.test.dto.TemplateMatchReq;
-import ru.devino.test.dto.TemplateMatchRes;
-import ru.devino.test.service.FileTemplateProvider;
+import ru.devino.template.dto.TemplateMatchReq;
+import ru.devino.template.dto.TemplateMatchRes;
+import ru.devino.template.provider.FileTemplateProvider;
 
 import javax.validation.Valid;
 

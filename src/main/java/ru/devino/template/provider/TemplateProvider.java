@@ -1,4 +1,4 @@
-package ru.devino.test.service;
+package ru.devino.template.provider;
 
 public interface TemplateProvider {
     /**
