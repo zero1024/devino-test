@@ -15,15 +15,15 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 @RestController
 public class TemplateController {
 
-    private final TemplateMatcher templateProvider;
+    private final TemplateMatcher templateMatcher;
 
-    public TemplateController(TemplateMatcher templateProvider) {
-        this.templateProvider = templateProvider;
+    public TemplateController(TemplateMatcher templateMatcher) {
+        this.templateMatcher = templateMatcher;
     }
 
     @PostMapping(value = "/match", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
     public TemplateMatchRes match(@Valid @RequestBody TemplateMatchReq req) {
-        MatchResult result = templateProvider.match(req.getText());
+        MatchResult result = templateMatcher.match(req.getText());
         if (result != null) {
             return TemplateMatchRes.success(req.getText(), result.getTemplate(), result.getParams());
         }
